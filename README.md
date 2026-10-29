@@ -11,6 +11,21 @@ from coming back.
 The tools that work with 2.6.2 (hooks, a wrapper, a web UI, sync between machines) live in
 [awesome-taskwarrior](https://github.com/linuxcaffe/awesome-taskwarrior).
 
+## One command
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/linuxcaffe/taskwarrior-2.6/main/install.sh | bash
+```
+
+On Termux it installs the `task2` deb (below); on Linux it builds the 2.6.2 release into `~/.local`, without
+sudo (a couple of minutes), or prints the one line that installs the build tools it's missing. 2.6.x already
+there: it says so and changes nothing. A 3.x there: it offers to replace it, and on a yes saves your tasks
+(`task export`) before removing anything; on Debian and Ubuntu it also stops apt from bringing 3.x back.
+Running it again is harmless. With [awesome-taskwarrior](https://github.com/linuxcaffe/awesome-taskwarrior)'s
+`tw`, the same thing is `tw -I taskwarrior`.
+
+The sections below are what it does, by hand.
+
 ## Have 3.x already? Save your tasks first
 
 3.x keeps tasks in `taskchampion.sqlite3`, which 2.6.2 can't read, and tasks added under 3.x aren't in
@@ -109,6 +124,8 @@ The `INSTALL` and `README.md` inside the 2.6.2 tarball date from 2022 and no lon
 
 | Path | What | Source |
 |---|---|---|
+| `install.sh` | The one command above | this repo |
+| `taskwarrior.meta`, `taskwarrior.install` | `tw -I taskwarrior`: its awesome-taskwarrior registry entry | this repo |
 | `source/task-2.6.2.tar.gz` | The official 2.6.2 release, kept here in case it ever disappears | [GothenburgBitFactory/taskwarrior v2.6.2](https://github.com/GothenburgBitFactory/taskwarrior/releases/tag/v2.6.2) |
 | `termux/task2_2.6.2-3_aarch64.deb` | Taskwarrior 2.6.2 for Termux, packaged as `task2` | Termux's `taskwarrior_2.6.2-3`, renamed by `repack-task2.sh` |
 | `termux/repack-task2.sh` | Renames the Termux deb to `task2`, adds `Conflicts: taskwarrior` | this repo |
@@ -120,8 +137,6 @@ Checksums of all of them: `SHA256SUMS` (`sha256sum -c SHA256SUMS`).
 
 ## Coming
 
-- `tw -I taskwarrior`: one command that installs 2.6.2 on whatever you're on (Termux deb, or a source
-  build), through [awesome-taskwarrior](https://github.com/linuxcaffe/awesome-taskwarrior)'s `tw`.
 - A `task2` deb for Debian, Ubuntu and Raspberry Pi OS (amd64, arm64), from Debian's packaging above.
 - Rebuilding the Termux deb from its recipe, rather than keeping the one file.
 - A tested way to bring tasks saved from 3.x into 2.6.2.
