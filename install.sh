@@ -182,7 +182,8 @@ install_linux() {
     fi
     # What make install put where, kept with it: removing it is xargs rm -f < this file
     local list="$PREFIX_DIR/share/doc/task/install_manifest.txt"
-    { cat "$WORK/task-2.6.2/install_manifest.txt"; printf '%s\n' "$list"; } >"$list" 2>/dev/null || true
+    # (CMake's list has no newline at its end: echo, or its last file and $list share a line)
+    { cat "$WORK/task-2.6.2/install_manifest.txt"; echo; printf '%s\n' "$list"; } >"$list" 2>/dev/null || true
     local bin="$PREFIX_DIR/bin/task" v
     v=$("$bin" --version 2>/dev/null </dev/null | head -1 || true)
     [[ $v == 2.6.* ]] || fail "built and installed, but $bin --version says '${v:-nothing}'"
